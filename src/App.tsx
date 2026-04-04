@@ -8,6 +8,7 @@ import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Survey from "./pages/Survey";
+import SurveyCompletion from "./pages/SurveyCompletion";
 
 function App() {
     return (
@@ -19,6 +20,10 @@ function App() {
             <Route element={<NoNavLayout />}>
                 <Route path="/login" element={<Login />} />
                 <Route path="/chat/:surveyType/:step" element={<Survey />} />
+                <Route
+                    path="/chat/:surveyType/:step/done"
+                    element={<SurveyCompletion />}
+                />
             </Route>
         </Routes>
     );
