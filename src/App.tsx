@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 
 import MainLayout from "./layout/main-layout/MainLayout";
 import NoNavLayout from "./layout/no-nav-layout/NoNavLayout";
+import AIChat from "./pages/AIChat";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -24,6 +25,7 @@ function App() {
                     path="/chat/:surveyType/:step/done"
                     element={<SurveyCompletion />}
                 />
+                <Route path="/aichat/:sessionId" element={<AIChat />} />
             </Route>
         </Routes>
     );
