@@ -11,15 +11,10 @@ function Login() {
     const [loginId, setLoginId] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const validation = Boolean(loginId && password);
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        if (!validation) {
-            return;
-        }
 
         setLoading(true);
         try {
@@ -120,7 +115,7 @@ function Login() {
                     <button
                         type="submit"
                         className="mt-5 inline-flex h-14 w-full items-center justify-center rounded-2xl bg-[var(--login-button-bg)] px-4 text-base font-bold text-[var(--login-button-text)] transition-transform duration-200 hover:translate-y-[-1px] hover:bg-black/95 disabled:pointer-events-none disabled:opacity-50"
-                        disabled={!validation || loading}
+                        disabled={loading}
                     >
                         {loading ? "로그인 중..." : "로그인"}
                     </button>
