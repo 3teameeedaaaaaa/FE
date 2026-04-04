@@ -1,16 +1,15 @@
-import { useState } from "react";
-
 import { cn } from "@/lib/utils";
-import { searchStocks } from "@/service/survey/searchStocks";
-import type { Stock } from "@/type/stock";
 
 import type { Question, SurveyAnswers } from "../Question";
+import StockSearchField from "./StockSearchField";
+
+type FieldValue = string | { id: number; name: string };
 
 interface QuestionFieldProps {
     question: Question;
-    value: string;
+    value: FieldValue;
     answers: SurveyAnswers;
-    onChangeAnswer: (questionId: string, value: string) => void;
+    onChangeAnswer: (questionId: string, value: FieldValue) => void;
 }
 
 function QuestionField({
@@ -19,10 +18,6 @@ function QuestionField({
     answers,
     onChangeAnswer,
 }: QuestionFieldProps) {
-    const [stocks, setStocks] = useState<Stock[]>([]);
-    const [searched, setSearched] = useState(false);
-    const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
-
     return (
         <section className="space-y-3 rounded-[28px] border border-stone-200 bg-white p-5">
             <div>
@@ -35,57 +30,13 @@ function QuestionField({
                     </p>
                 ) : null}
             </div>
-            {/* 선택된 종목 표시 */}
-            {selectedStock && (
-                <div className="flex gap-2">
-                    <span className="px-3 py-1 rounded-full bg-stone-900 text-white text-xs">
-                        {selectedStock.name} ({selectedStock.tickerCode})
-                    </span>
-                </div>
-            )}
-
-            {/* 검색 결과 */}
-            {searched && !selectedStock && (
-                <div className="flex flex-wrap gap-2">
-                    {stocks.map((stock) => (
-                        <button
-                            key={stock.id}
-                            type="button"
-                            onClick={() => {
-                                setSelectedStock(stock);
-                                onChangeAnswer(question.id, {
-                                    id: stock.id,
-                                    name: stock.name,
-                                });
-                            }}
-                            className="px-3 py-1 rounded-full bg-stone-200 text-xs"
-                        >
-                            {stock.name} ({stock.tickerCode})
-                        </button>
-                    ))}
-                </div>
-            )}
-            {question.type === "stock-input"
-                ? !searched && (
-                      <input
-                          value={typeof value === "string" ? value : ""}
-                          onChange={(e) =>
-                              onChangeAnswer(question.id, e.target.value)
-                          }
-                          onKeyDown={async (e) => {
-                              if (e.key === "Enter") {
-                                  e.preventDefault();
-                                  if (!value.trim()) return;
-
-                                  const res = await searchStocks(value);
-                                  setStocks(res);
-                                  setSearched(true); // ✅ input 제거 트리거
-                              }
-                          }}
-                          placeholder={question.placeholder}
-                      />
-                  )
-                : null}
+            {question.type === "stock-input" ? (
+                <StockSearchField
+                    question={question}
+                    value={value}
+                    onChangeAnswer={onChangeAnswer}
+                />
+            ) : null}
 
             {question.type === "chip-select" ? (
                 <div className="flex flex-wrap gap-2">
@@ -191,7 +142,7 @@ function QuestionField({
                     ) : null}
 
                     <textarea
-                        value={value}
+                        value={typeof value === "string" ? value : ""}
                         onChange={(event) =>
                             onChangeAnswer(question.id, event.target.value)
                         }

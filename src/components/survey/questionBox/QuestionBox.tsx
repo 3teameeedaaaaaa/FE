@@ -10,6 +10,7 @@ import type { AnswerValue } from "@/type/answer";
 import ActionButtons from "../actionButtons/ActionButtons";
 import Body from "../body/Body";
 import Desc from "../desc/Desc";
+import SurveyHeader from "../header/SurveyHeader";
 import {
     buildSurveyPayloadText,
     buildSurveySummary,
@@ -80,60 +81,63 @@ const QuestionBox = () => {
     };
 
     return (
-        <div className="flex min-h-full flex-1 flex-col bg-stone-50 px-5 py-6">
-            <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-400">
-                    Step {currentStep.step}
-                </p>
-                <div className="mt-3">
+        <div className="flex min-h-full flex-1 flex-col bg-stone-50">
+            <SurveyHeader
+                step={currentStep.step}
+                totalSteps={steps.length}
+                onBack={handleBack}
+            />
+
+            <div className="flex flex-1 flex-col px-5 py-6">
+                <div>
                     <TypographyH1>{currentStep.title}</TypographyH1>
                     {currentStep.description ? (
                         <Desc>{currentStep.description}</Desc>
                     ) : null}
                 </div>
-            </div>
 
-            {isBridgeStep ? (
-                <div className="mt-6 rounded-[28px] border border-stone-200 bg-white p-5">
-                    <div className="space-y-3">
-                        {summaryItems.map((item) => (
-                            <div
-                                key={item.label}
-                                className="flex items-start justify-between gap-4 border-b border-stone-100 pb-3 last:border-b-0 last:pb-0"
-                            >
-                                <span className="text-sm text-stone-500">
-                                    {item.label}
-                                </span>
-                                <span className="max-w-[70%] text-right text-sm font-medium text-stone-900">
-                                    {item.value}
-                                </span>
-                            </div>
-                        ))}
+                {isBridgeStep ? (
+                    <div className="mt-6 rounded-[28px] border border-stone-200 bg-white p-5">
+                        <div className="space-y-3">
+                            {summaryItems.map((item) => (
+                                <div
+                                    key={item.label}
+                                    className="flex items-start justify-between gap-4 border-b border-stone-100 pb-3 last:border-b-0 last:pb-0"
+                                >
+                                    <span className="text-sm text-stone-500">
+                                        {item.label}
+                                    </span>
+                                    <span className="max-w-[70%] text-right text-sm font-medium text-stone-900">
+                                        {item.value}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {currentStep.bridgeNote ? (
+                            <p className="mt-6 text-xs leading-5 text-stone-400">
+                                {currentStep.bridgeNote}
+                            </p>
+                        ) : null}
                     </div>
+                ) : (
+                    <Body
+                        questions={currentStep.questions}
+                        answers={answers}
+                        onChangeAnswer={handleChangeAnswer}
+                    />
+                )}
 
-                    {currentStep.bridgeNote ? (
-                        <p className="mt-6 text-xs leading-5 text-stone-400">
-                            {currentStep.bridgeNote}
-                        </p>
-                    ) : null}
+                <div className="mt-auto pt-6">
+                    <ActionButtons
+                        canGoBack={currentStep.step > 1}
+                        isLastStep={currentStep.step === steps.length}
+                        disabled={!isBridgeStep && !isCurrentStepValid}
+                        submitLabel={currentStep.submitLabel}
+                        onBack={handleBack}
+                        onNext={handleNext}
+                    />
                 </div>
-            ) : (
-                <Body
-                    questions={currentStep.questions}
-                    answers={answers}
-                    onChangeAnswer={handleChangeAnswer}
-                />
-            )}
-
-            <div className="mt-auto pt-6">
-                <ActionButtons
-                    canGoBack={currentStep.step > 1}
-                    isLastStep={currentStep.step === steps.length}
-                    disabled={!isBridgeStep && !isCurrentStepValid}
-                    submitLabel={currentStep.submitLabel}
-                    onBack={handleBack}
-                    onNext={handleNext}
-                />
             </div>
         </div>
     );

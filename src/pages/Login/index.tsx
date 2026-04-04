@@ -1,5 +1,5 @@
 import { LockKeyhole, UserRound, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import trademindLogo from "@/assets/login/trademind-logo.svg";
@@ -8,10 +8,17 @@ import { login } from "@/service/auth/login";
 import { useAuthStore } from "@/store/auth/AuthStore";
 
 function Login() {
+    const user = useAuthStore((state) => state.user);
     const [loginId, setLoginId] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/", { replace: true });
+        }
+    }, [navigate, user]);
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -90,7 +97,7 @@ function Login() {
                         value={loginId}
                         onChange={(e) => setLoginId(e.target.value)}
                         hideLabel
-                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)]"
+                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)] transition-[border-color,box-shadow,background-color] focus-within:border-[var(--login-link)]/25 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(45,34,36,0.08),0_12px_28px_rgba(255,255,255,0.24)]"
                         inputClassName="text-base font-medium text-stone-800 placeholder:text-[var(--login-placeholder)]"
                         iconClassName="text-[var(--login-placeholder)]"
                     />
@@ -104,14 +111,14 @@ function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         hideLabel
-                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)]"
+                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)] transition-[border-color,box-shadow,background-color] focus-within:border-[var(--login-link)]/25 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(45,34,36,0.08),0_12px_28px_rgba(255,255,255,0.24)]"
                         inputClassName="text-base font-medium text-stone-800 placeholder:text-[var(--login-placeholder)]"
                         iconClassName="text-[var(--login-placeholder)]"
                     />
 
                     <button
                         type="submit"
-                        className="mt-5 inline-flex h-14 w-full items-center justify-center rounded-2xl bg-[var(--login-button-bg)] px-4 text-base font-bold text-[var(--login-button-text)] transition-transform duration-200 hover:translate-y-[-1px] hover:bg-black/95 disabled:pointer-events-none disabled:opacity-50"
+                        className="login-submit-text mt-5 inline-flex h-14 w-full items-center justify-center rounded-2xl bg-[var(--login-button-bg)] px-4 text-base text-[var(--login-button-text)] transition-transform duration-200 hover:translate-y-[-1px] hover:bg-black/95 disabled:pointer-events-none disabled:opacity-50"
                         disabled={loading}
                     >
                         {loading ? "로그인 중..." : "로그인"}

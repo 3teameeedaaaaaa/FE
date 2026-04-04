@@ -2,6 +2,78 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Thin.woff2")
+        format("woff2");
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraLight.woff2")
+        format("woff2");
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2")
+        format("woff2");
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2")
+        format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2")
+        format("woff2");
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-SemiBold.woff2")
+        format("woff2");
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2")
+        format("woff2");
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraBold.woff2")
+        format("woff2");
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SUIT";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2")
+        format("woff2");
+    font-weight: 900;
+    font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -25,7 +97,6 @@
         "Noto Color Emoji",
         sans-serif;
     --sans:
-        "SUIT Variable",
         "SUIT",
         var(--font-emoji),
         system-ui,
@@ -43,7 +114,8 @@
     --heading: var(--sans);
     --mono: ui-monospace, Consolas, monospace;
 
-    font: 18px/145% var(--sans);
+    font-size: 16px;
+    font-family: var(--sans);
     letter-spacing: -0.4px;
     color-scheme: light dark;
     color: var(--text);
@@ -52,10 +124,6 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    @media (max-width: 1024px) {
-        font-size: 16px;
-    }
 
     --background: oklch(1 0 0);
 
@@ -174,35 +242,22 @@
 
 body {
     margin: 0;
+    font-family: var(--sans);
+    letter-spacing: inherit;
     word-break: keep-all;
     overflow-wrap: break-word;
 }
 
-h1,
-h2 {
-    font-family: var(--heading);
-    font-weight: 500;
-    color: var(--text-h);
+@layer base {
+    button,
+    input,
+    textarea,
+    select {
+        font: inherit;
+        letter-spacing: inherit;
+    }
 }
 
-h1 {
-    font-size: 56px;
-    letter-spacing: -1.68px;
-    margin: 32px 0;
-    @media (max-width: 1024px) {
-        font-size: 36px;
-        margin: 20px 0;
-    }
-}
-h2 {
-    font-size: 24px;
-    line-height: 118%;
-    letter-spacing: -0.24px;
-    margin: 0 0 8px;
-    @media (max-width: 1024px) {
-        font-size: 20px;
-    }
-}
 p {
     margin: 0;
 }
@@ -264,6 +319,13 @@ code {
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer components {
+    .login-submit-text {
+        font-family: "SUIT", sans-serif;
+        font-weight: 900;
+    }
 }
 
 .dark {
