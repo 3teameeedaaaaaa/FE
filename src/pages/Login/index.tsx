@@ -1,22 +1,20 @@
+import { LockKeyhole, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import emailIcon from "@/assets/login/email-ico.webp";
-import passwordIcon from "@/assets/login/password-ico.webp";
-import BackButton from "@/components/backButton/backButton";
+import trademindLogo from "@/assets/login/trademind-logo.svg";
 import LoginInput from "@/components/login/LoginInput";
-import { TypographyH2 } from "@/components/ui/Typography";
 import { login } from "@/service/auth/login";
 import { useAuthStore } from "@/store/auth/AuthStore";
 
 function Login() {
-    const [email, setEmail] = useState("");
+    const [loginId, setLoginId] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const validation = email && password;
+    const validation = Boolean(loginId && password);
     const navigate = useNavigate();
 
-    const handleLogin = async (e: React.FormEvent<HTMLButtonElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!validation) {
@@ -26,8 +24,8 @@ function Login() {
         setLoading(true);
         try {
             const res = await login({
-                loginId: email,
-                hashedPassword: password,
+                loginId,
+                password,
             });
             useAuthStore.getState().setUser(res);
             console.log(res);
@@ -39,49 +37,108 @@ function Login() {
         }
     };
 
+    const handleClose = () => {
+        navigate("/", { replace: true });
+    };
+
     return (
-        <>
-            <header className="flex items-center gap-3 border-b border-stone-200 px-5 pb-4 pt-5">
-                <BackButton onClick={() => {}} />
-                <div>
-                    <p className="text-sm font-medium text-stone-500">계정</p>
-                    <TypographyH2>로그인</TypographyH2>
+        <main
+            className="relative flex min-h-screen min-h-svh flex-1 flex-col overflow-y-auto px-5 py-4"
+            style={{
+                background:
+                    "linear-gradient(180deg, var(--login-gradient-top) 0%, var(--login-gradient-middle) 54%, var(--login-gradient-bottom) 100%)",
+            }}
+        >
+            <div className="pointer-events-none absolute inset-0">
+                {/* 피그마 하단의 따뜻한 광원 느낌을 배경 레이어로 분리한다. */}
+                <div
+                    className="absolute inset-x-[-8%] bottom-[-12%] h-[48%] rounded-full blur-3xl"
+                    style={{ background: "var(--login-glow)" }}
+                />
+            </div>
+
+            <div className="relative z-10 flex justify-end">
+                <button
+                    type="button"
+                    onClick={handleClose}
+                    aria-label="닫기"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--login-close-border)] bg-[var(--login-close-bg)] text-stone-800 backdrop-blur-md transition-colors hover:bg-white/60"
+                >
+                    <X className="h-4 w-4" strokeWidth={2.1} />
+                </button>
+            </div>
+
+            <section className="relative z-10 mx-auto flex w-full max-w-[350px] flex-1 flex-col">
+                <div className="text-center">
+                    {/* 피그마 워드마크를 텍스트 근사치 대신 실제 asset으로 노출한다. */}
+                    <img
+                        src={trademindLogo}
+                        alt="TRADEMIND"
+                        className="mx-auto mt-24 h-auto w-[308px] max-w-full"
+                    />
+                    <p className="pt-2 text-base leading-6 font-semibold text-[var(--login-subtitle)]">
+                        선택보다 먼저, 마음을 살피는 연습
+                    </p>
                 </div>
-            </header>
-            <main className="min-h-0 flex-1 overflow-y-auto bg-stone-50 px-5 py-5">
-                <form className="space-y-5 rounded-[28px] border border-stone-200 bg-white p-5">
+
+                {/* 남는 높이를 위아래로 분배해서 짧은 화면과 긴 화면 모두에서 간격이 자연스럽게 반응하도록 한다. */}
+                <div className="min-h-20 flex-1" />
+
+                <form
+                    className="w-full space-y-4"
+                    onSubmit={handleLogin}
+                >
                     <LoginInput
-                        key="email"
-                        id="email"
-                        placeholder="name@example.com"
-                        icon={emailIcon}
-                        label="이메일"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        id="loginId"
+                        type="text"
+                        autoComplete="username"
+                        placeholder="아이디를 입력해주세요"
+                        iconComponent={UserRound}
+                        label="아이디"
+                        value={loginId}
+                        onChange={(e) => setLoginId(e.target.value)}
+                        hideLabel
+                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)]"
+                        inputClassName="text-base font-medium text-stone-800 placeholder:text-[var(--login-placeholder)]"
+                        iconClassName="text-[var(--login-placeholder)]"
                     />
                     <LoginInput
-                        key="password"
                         id="password"
-                        placeholder="비밀번호를 입력해 주세요"
-                        icon={passwordIcon}
+                        type="password"
+                        autoComplete="current-password"
+                        placeholder="비밀번호를 입력해주세요"
+                        iconComponent={LockKeyhole}
                         label="비밀번호"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        hideLabel
+                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)]"
+                        inputClassName="text-base font-medium text-stone-800 placeholder:text-[var(--login-placeholder)]"
+                        iconClassName="text-[var(--login-placeholder)]"
                     />
 
                     <button
-                        className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background px-4 py-2 h-12 w-full rounded-2xl bg-stone-900 text-white hover:bg-stone-900/95"
-                        onClick={handleLogin}
+                        type="submit"
+                        className="mt-5 inline-flex h-14 w-full items-center justify-center rounded-2xl bg-[var(--login-button-bg)] px-4 text-base font-bold text-[var(--login-button-text)] transition-transform duration-200 hover:translate-y-[-1px] hover:bg-black/95 disabled:pointer-events-none disabled:opacity-50"
                         disabled={!validation || loading}
                     >
-                        로그인
+                        {loading ? "로그인 중..." : "로그인"}
                     </button>
-                    <p>
-                        처음이신가요? <NavLink to="/sign-up">회원가입</NavLink>
+
+                    <p className="pt-1 text-center text-sm font-semibold text-[var(--login-helper)]">
+                        처음이신가요?{" "}
+                        <NavLink
+                            to="/sign-up"
+                            className="font-bold text-[var(--login-link)] underline underline-offset-2"
+                        >
+                            회원가입
+                        </NavLink>
                     </p>
                 </form>
-            </main>
-        </>
+
+                <div className="min-h-6 flex-1" />
+            </section>
+        </main>
     );
 }
 

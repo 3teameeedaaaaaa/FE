@@ -94,7 +94,28 @@
 
     --sidebar-border: oklch(0.922 0 0);
 
-    --sidebar-ring: oklch(0.708 0 0)
+    --sidebar-ring: oklch(0.708 0 0);
+
+    /* 인증 화면에서 공통으로 재사용할 수 있는 시각 토큰 */
+    --login-gradient-top: #b8c7ff;
+    --login-gradient-middle: #d6d1e7;
+    --login-gradient-bottom: #ffcfae;
+    --login-glow: radial-gradient(
+        circle at center,
+        rgba(255, 236, 219, 0.88) 0%,
+        rgba(255, 236, 219, 0) 72%
+    );
+    --login-wordmark: #161015;
+    --login-input-bg: rgba(255, 255, 255, 0.94);
+    --login-input-border: rgba(255, 255, 255, 0.42);
+    --login-placeholder: #8f877f;
+    --login-button-bg: #100c0d;
+    --login-button-text: #fafaf9;
+    --login-subtitle: #4a3d40;
+    --login-helper: #6f6260;
+    --login-link: #2d2224;
+    --login-close-bg: rgba(255, 255, 255, 0.42);
+    --login-close-border: rgba(231, 229, 228, 0.78);
 }
 
 @media (prefers-color-scheme: dark) {
