@@ -20,7 +20,7 @@ export const NAV_ITEMS: NavItemType[] = [
         label: "홈",
     },
     {
-        path: "/result",
+        path: "/chat",
         icon: messageIcon,
         activeIcon: activeMessageIcon,
         label: "대화하기",
