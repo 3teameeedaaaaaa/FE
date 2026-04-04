@@ -6,11 +6,13 @@ import type { Stock } from "@/type/stock";
 
 import type { Question, SurveyAnswers } from "../Question";
 
+type FieldValue = string | { id: number; name: string };
+
 interface QuestionFieldProps {
     question: Question;
-    value: string;
+    value: FieldValue;
     answers: SurveyAnswers;
-    onChangeAnswer: (questionId: string, value: string) => void;
+    onChangeAnswer: (questionId: string, value: FieldValue) => void;
 }
 
 function QuestionField({
@@ -75,7 +77,7 @@ function QuestionField({
                           onKeyDown={async (e) => {
                               if (e.key === "Enter") {
                                   e.preventDefault();
-                                  if (!value.trim()) return;
+                                  if (typeof value !== "string" || !value.trim()) return;
 
                                   const res = await searchStocks(value);
                                   setStocks(res);
@@ -191,7 +193,7 @@ function QuestionField({
                     ) : null}
 
                     <textarea
-                        value={value}
+                        value={typeof value === "string" ? value : ""}
                         onChange={(event) =>
                             onChangeAnswer(question.id, event.target.value)
                         }

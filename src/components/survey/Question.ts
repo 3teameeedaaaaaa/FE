@@ -268,7 +268,7 @@ export function isQuestionAnswered(question: Question, answers: SurveyAnswers) {
 
 export function buildSurveySummary(answers: SurveyAnswers) {
     return [
-        { label: "종목", value: answers.stock },
+        { label: "종목", value: answers.stock?.name },
         { label: "상황", value: answers.situationTag },
         { label: "감정", value: answers.emotion },
         { label: "생각", value: answers.thoughtTag },
