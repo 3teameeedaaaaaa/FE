@@ -33,10 +33,12 @@ export interface SurveyStep {
 }
 
 export interface SurveyAnswers {
-    stock?: {
-        id: number;
-        name: string;
-    };
+    stock?:
+        | {
+              id: number;
+              name: string;
+          }
+        | string;
     situationTag?: string;
     emotion?: string;
     thoughtTag?: string;
@@ -267,8 +269,11 @@ export function isQuestionAnswered(question: Question, answers: SurveyAnswers) {
 }
 
 export function buildSurveySummary(answers: SurveyAnswers) {
+    const stockLabel =
+        typeof answers.stock === "string" ? answers.stock : answers.stock?.name;
+
     return [
-        { label: "종목", value: answers.stock?.name },
+        { label: "종목", value: stockLabel },
         { label: "상황", value: answers.situationTag },
         { label: "감정", value: answers.emotion },
         { label: "생각", value: answers.thoughtTag },
