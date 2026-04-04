@@ -27,7 +27,7 @@ function Login() {
         try {
             const res = await login({
                 loginId: email,
-                password: password,
+                hashedPassword: password,
             });
             useAuthStore.getState().setUser(res);
             console.log(res);
