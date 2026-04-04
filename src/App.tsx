@@ -25,7 +25,7 @@ function App() {
                     path="/chat/:surveyType/:step/done"
                     element={<SurveyCompletion />}
                 />
-                <Route path="/aichat/:sessionId" element={<AIChat />} />
+                <Route path="/aichat" element={<AIChat />} />
             </Route>
         </Routes>
     );

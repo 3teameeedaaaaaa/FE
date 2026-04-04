@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { TypographyH1 } from "@/components/ui/Typography";
 import useStep from "@/hooks/useStep";
 import useSurveyType from "@/hooks/useSurveyType";
+import { createChatSession } from "@/service/survey/createChatSession";
 import { useSurveyStore } from "@/store/survey/SurveyStore";
 import type { AnswerValue } from "@/type/answer";
 
@@ -12,7 +13,6 @@ import Body from "../body/Body";
 import Desc from "../desc/Desc";
 import SurveyHeader from "../header/SurveyHeader";
 import {
-    buildSurveyPayloadText,
     buildSurveySummary,
     getSurveySteps,
     isQuestionAnswered,
@@ -41,6 +41,9 @@ const QuestionBox = () => {
     );
     const summaryItems = buildSurveySummary(answers);
 
+    const isLastStep = currentStep.step === steps.length;
+    const isSubmitStep = isLastStep && isBridgeStep;
+
     useEffect(() => {
         // 잘못된 step 접근은 첫 화면으로 정리해서 상태 분기를 단순하게 유지한다.
         if (currentStepNumber < 1 || currentStepNumber > steps.length) {
@@ -61,23 +64,48 @@ const QuestionBox = () => {
         navigate(`/chat/${resolvedSurveyType}/${currentStep.step - 1}`);
     };
 
-    const handleNext = () => {
+    const SURVEY_PAYLOAD_KEY = "survey";
+
+    const handleNext = async () => {
         if (!isBridgeStep && !isCurrentStepValid) {
             return;
         }
 
-        if (currentStep.step < steps.length) {
-            navigate(`/chat/${resolvedSurveyType}/${currentStep.step + 1}`);
+        // 👉 마지막 submit step일 때만 POST
+        if (isSubmitStep) {
+            const { detailText, emotion, situationTag, stock, thoughtTag } =
+                answers;
+
+            const payload = {
+                mode: surveyType === "pretrade-survey" ? "PRE" : "POST",
+                ticker: typeof stock === "object" ? `${stock.id}` : "",
+                emotion: emotion as string,
+                situation: thoughtTag as string,
+                singleChip: situationTag as string,
+                text: detailText as string,
+                turn_number: 1,
+                previouse_distorstion: "",
+                conversation_history: [],
+            };
+
+            sessionStorage.setItem(SURVEY_PAYLOAD_KEY, JSON.stringify(payload));
+
+            try {
+                const res = await createChatSession(payload);
+
+                console.log("API 응답", res);
+
+                navigate("/aichat");
+            } catch (error) {
+                console.error("API 에러", error);
+            }
+
             return;
         }
 
+        // 👉 그 외는 step 이동만
+        navigate(`/chat/${resolvedSurveyType}/${currentStep.step + 1}`);
         // 아직 API 계약이 없으므로, 문서 제안처럼 전송 직전 조합될 값을 남긴다.
-        console.log({
-            surveyType: resolvedSurveyType,
-            answers,
-            text: buildSurveyPayloadText(answers),
-        });
-        navigate("/chat");
     };
 
     return (

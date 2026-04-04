@@ -1,7 +1,10 @@
+import { useEffect } from "react";
+
 import AiMsg from "@/components/aiChat/aiMessage/AiMsg";
 import MyMsg from "@/components/aiChat/myMessage/MyMsg";
 import BackButton from "@/components/backButton/backButton";
 import { TypographyH2 } from "@/components/ui/Typography";
+import { chatSession } from "@/service/survey/chatSession";
 
 // const CHOICES = [
 //     { label: "매수 근거가 바뀌었어요", isPrimary: true },
@@ -18,6 +21,11 @@ function AIChat() {
         console.log("결과보기 클릭");
         // 결과 페이지 이동 or zustand 액션 연결
     };
+
+    useEffect(() => {
+        const res = chatSession();
+        console.log(res);
+    }, []);
 
     return (
         <div className="flex flex-col h-screen bg-white">

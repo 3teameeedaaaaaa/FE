@@ -1,15 +1,11 @@
 export interface CreateChatSessionRequest {
-    stockId: number;
-    customStockName: string;
-    sessionMode: "PRE" | "POST";
+    mode: string;
+    ticker: string;
     emotion: string;
+    situation: string;
     singleChip: string;
-    commonChip: string;
-    content: string;
-}
-
-// 응답 타입
-export interface CreateChatSessionResponse {
-    sessionId: number;
-    status: "ONGOING" | "ENDED";
+    text: string;
+    turn_number: number;
+    previous_distortion_type: string;
+    conversation_history: [];
 }
