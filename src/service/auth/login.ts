@@ -2,7 +2,7 @@ import api from "../api/api";
 
 export interface LoginRequest {
     loginId: string;
-    password: string;
+    hashedPassword: string;
 }
 
 export interface LoginResponse {
