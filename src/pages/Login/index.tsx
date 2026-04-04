@@ -43,7 +43,7 @@ function Login() {
 
     return (
         <main
-            className="relative flex min-h-screen flex-1 flex-col overflow-hidden px-5 pb-10 pt-[18px]"
+            className="relative flex min-h-screen min-h-svh flex-1 flex-col overflow-y-auto px-5 py-4"
             style={{
                 background:
                     "linear-gradient(180deg, var(--login-gradient-top) 0%, var(--login-gradient-middle) 54%, var(--login-gradient-bottom) 100%)",
@@ -68,21 +68,24 @@ function Login() {
                 </button>
             </div>
 
-            <section className="relative z-10 flex flex-1 flex-col items-center">
-                <div className="pt-24 text-center">
+            <section className="relative z-10 mx-auto flex w-full max-w-[350px] flex-1 flex-col">
+                <div className="text-center">
                     {/* 피그마 워드마크를 텍스트 근사치 대신 실제 asset으로 노출한다. */}
                     <img
                         src={trademindLogo}
                         alt="TRADEMIND"
-                        className="mx-auto h-auto w-[308px] max-w-full"
+                        className="mx-auto mt-24 h-auto w-[308px] max-w-full"
                     />
                     <p className="pt-2 text-base leading-6 font-semibold text-[var(--login-subtitle)]">
                         선택보다 먼저, 마음을 살피는 연습
                     </p>
                 </div>
 
+                {/* 남는 높이를 위아래로 분배해서 짧은 화면과 긴 화면 모두에서 간격이 자연스럽게 반응하도록 한다. */}
+                <div className="min-h-20 flex-1" />
+
                 <form
-                    className="mt-[10.5rem] w-full max-w-[350px] space-y-4"
+                    className="w-full space-y-4"
                     onSubmit={handleLogin}
                 >
                     <LoginInput
@@ -132,6 +135,8 @@ function Login() {
                         </NavLink>
                     </p>
                 </form>
+
+                <div className="min-h-6 flex-1" />
             </section>
         </main>
     );
