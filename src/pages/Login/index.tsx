@@ -1,5 +1,5 @@
 import { LockKeyhole, UserRound, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import trademindLogo from "@/assets/login/trademind-logo.svg";
@@ -8,10 +8,17 @@ import { login } from "@/service/auth/login";
 import { useAuthStore } from "@/store/auth/AuthStore";
 
 function Login() {
+    const user = useAuthStore((state) => state.user);
     const [loginId, setLoginId] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/", { replace: true });
+        }
+    }, [navigate, user]);
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -15,9 +15,9 @@ function App() {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/chat" element={<Chat />} />
             </Route>
             <Route element={<NoNavLayout />}>
+                <Route path="/chat" element={<Chat />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/chat/:surveyType/:step" element={<Survey />} />
                 <Route
