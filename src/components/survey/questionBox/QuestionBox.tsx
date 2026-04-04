@@ -78,7 +78,7 @@ const QuestionBox = () => {
 
             const payload = {
                 mode: surveyType === "pretrade-survey" ? "PRE" : "POST",
-                ticker: typeof stock === "object" ? `${stock.id}` : "",
+                ticker: typeof stock === "object" ? stock.name : "",
                 emotion: emotion as string,
                 situation: thoughtTag as string,
                 singleChip: situationTag as string,
