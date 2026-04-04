@@ -4,9 +4,15 @@ export type QuestionType =
     | "chip-select"
     | "radio-select"
     | "textarea";
+export type QuestionId =
+    | "stock"
+    | "situationTag"
+    | "emotion"
+    | "thoughtTag"
+    | "detailText";
 
 export interface Question {
-    id: string;
+    id: QuestionId;
     title: string;
     description?: string;
     type: QuestionType;
@@ -26,7 +32,16 @@ export interface SurveyStep {
     bridgeNote?: string;
 }
 
-export type SurveyAnswers = Record<string, string>;
+export interface SurveyAnswers {
+    stock?: {
+        id: number;
+        name: string;
+    };
+    situationTag?: string;
+    emotion?: string;
+    thoughtTag?: string;
+    detailText?: string;
+}
 
 const emotionOptions = [
     "불안해요",
@@ -237,7 +252,18 @@ export function isQuestionAnswered(question: Question, answers: SurveyAnswers) {
         return true;
     }
 
-    return Boolean(answers[question.id]?.trim());
+    const key = question.id as keyof SurveyAnswers;
+    const value = answers[key];
+
+    if (typeof value === "string") {
+        return value.trim().length > 0;
+    }
+
+    if (typeof value === "object" && value !== null) {
+        return !!value; // stock 객체 체크
+    }
+
+    return false;
 }
 
 export function buildSurveySummary(answers: SurveyAnswers) {

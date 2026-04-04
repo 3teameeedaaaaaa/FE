@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { TypographyH1 } from "@/components/ui/Typography";
 import useStep from "@/hooks/useStep";
+import useSurveyType from "@/hooks/useSurveyType";
+import { useSurveyStore } from "@/store/survey/SurveyStore";
+import type { AnswerValue } from "@/type/answer";
 
 import ActionButtons from "../actionButtons/ActionButtons";
 import Body from "../body/Body";
@@ -12,13 +15,11 @@ import {
     buildSurveySummary,
     getSurveySteps,
     isQuestionAnswered,
-    type SurveyAnswers,
-    type SurveyType,
 } from "../Question";
 
 const QuestionBox = () => {
     const navigate = useNavigate();
-    const { surveyType } = useParams<{ surveyType?: string }>();
+    const surveyType = useSurveyType();
     const currentStepNumber = useStep();
     const resolvedSurveyType =
         surveyType === "posttrade-survey"
@@ -28,13 +29,8 @@ const QuestionBox = () => {
         () => getSurveySteps(resolvedSurveyType),
         [resolvedSurveyType],
     );
-    const [answersByType, setAnswersByType] = useState<
-        Record<SurveyType, SurveyAnswers>
-    >({
-        "pretrade-survey": {},
-        "posttrade-survey": {},
-    });
-    const answers = answersByType[resolvedSurveyType];
+    const answers = useSurveyStore((s) => s.answers[resolvedSurveyType]);
+    const setAnswer = useSurveyStore((s) => s.setAnswer);
 
     const currentStep =
         steps.find((step) => step.step === currentStepNumber) ?? steps[0];
@@ -51,14 +47,8 @@ const QuestionBox = () => {
         }
     }, [currentStepNumber, navigate, resolvedSurveyType, steps.length]);
 
-    const handleChangeAnswer = (questionId: string, value: string) => {
-        setAnswersByType((prev) => ({
-            ...prev,
-            [resolvedSurveyType]: {
-                ...prev[resolvedSurveyType],
-                [questionId]: value,
-            },
-        }));
+    const handleChangeAnswer = (questionId: string, value: AnswerValue) => {
+        setAnswer(resolvedSurveyType, questionId, value);
     };
 
     const handleBack = () => {

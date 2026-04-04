@@ -19,8 +19,8 @@ function Login() {
         setLoading(true);
         try {
             const res = await login({
-                loginId,
-                password,
+                loginId: loginId,
+                hashedPassword: password,
             });
             useAuthStore.getState().setUser(res);
             console.log(res);
@@ -79,10 +79,7 @@ function Login() {
                 {/* 남는 높이를 위아래로 분배해서 짧은 화면과 긴 화면 모두에서 간격이 자연스럽게 반응하도록 한다. */}
                 <div className="min-h-20 flex-1" />
 
-                <form
-                    className="w-full space-y-4"
-                    onSubmit={handleLogin}
-                >
+                <form className="w-full space-y-4" onSubmit={handleLogin}>
                     <LoginInput
                         id="loginId"
                         type="text"
