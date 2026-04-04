@@ -93,7 +93,7 @@ function Login() {
                         value={loginId}
                         onChange={(e) => setLoginId(e.target.value)}
                         hideLabel
-                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)]"
+                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)] transition-[border-color,box-shadow,background-color] focus-within:border-[var(--login-link)]/25 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(45,34,36,0.08),0_12px_28px_rgba(255,255,255,0.24)]"
                         inputClassName="text-base font-medium text-stone-800 placeholder:text-[var(--login-placeholder)]"
                         iconClassName="text-[var(--login-placeholder)]"
                     />
@@ -107,7 +107,7 @@ function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         hideLabel
-                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)]"
+                        wrapperClassName="h-14 rounded-2xl border-[var(--login-input-border)] bg-[var(--login-input-bg)] px-3.5 shadow-[0_6px_18px_rgba(255,255,255,0.16)] transition-[border-color,box-shadow,background-color] focus-within:border-[var(--login-link)]/25 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(45,34,36,0.08),0_12px_28px_rgba(255,255,255,0.24)]"
                         inputClassName="text-base font-medium text-stone-800 placeholder:text-[var(--login-placeholder)]"
                         iconClassName="text-[var(--login-placeholder)]"
                     />
