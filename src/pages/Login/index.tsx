@@ -76,7 +76,7 @@ function Login() {
                         alt="TRADEMIND"
                         className="mx-auto h-auto w-[308px] max-w-full"
                     />
-                    <p className="pt-2 text-base font-medium text-[var(--login-subtitle)]">
+                    <p className="pt-2 text-base leading-6 font-semibold text-[var(--login-subtitle)]">
                         선택보다 먼저, 마음을 살피는 연습
                     </p>
                 </div>
