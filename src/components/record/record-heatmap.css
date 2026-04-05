@@ -1,0 +1,38 @@
+@property --record-heatmap-none {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #e9eef8;
+}
+
+@property --record-heatmap-once {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #b9caf3;
+}
+
+@property --record-heatmap-several {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #4c6ab5;
+}
+
+.record-heatmap-palette {
+    --record-heatmap-none: #e9eef8;
+    --record-heatmap-once: #b9caf3;
+    --record-heatmap-several: #4c6ab5;
+
+    animation: record-heatmap-palette-shift 18s ease-in-out infinite alternate;
+}
+
+@keyframes record-heatmap-palette-shift {
+    0% {
+        --record-heatmap-none: #e9eef8;
+        --record-heatmap-once: #b9caf3;
+        --record-heatmap-several: #4c6ab5;
+    }
+    100% {
+        --record-heatmap-none: #fcebe4;
+        --record-heatmap-once: #f7c4b1;
+        --record-heatmap-several: #eb7951;
+    }
+}

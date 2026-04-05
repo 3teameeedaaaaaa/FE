@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cbt_response_v1.0.json",
+  "title": "LLM Raw CBT Response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "distortion_type": {
+      "type": "string",
+      "enum": [
+        "catastrophizing",
+        "all_or_nothing",
+        "emotional_reasoning",
+        "confirmation_bias",
+        "fomo_herd",
+        "illusion_of_control",
+        "anchoring_bias",
+        "sunk_cost"
+      ]
+    },
+    "distortion_tag": {
+      "type": "string",
+      "minLength": 1
+    },
+    "empathy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question_type": {
+      "type": "string",
+      "enum": [
+        "exploratory",
+        "meta_cognition"
+      ]
+    },
+    "meta_question": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "meta_options": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "reflection_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "distortion_type",
+    "distortion_tag",
+    "empathy",
+    "question",
+    "question_type",
+    "meta_question",
+    "meta_options",
+    "reflection_summary"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "question_type": {
+            "const": "exploratory"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "meta_question": {
+            "type": "null"
+          },
+          "meta_options": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "question_type": {
+            "const": "meta_cognition"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "meta_question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "meta_options": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "reflection_summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+.anxious-candle-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  --candle-color: #ffffff;
+  --candle-glow: rgba(255, 255, 255, 0.4);
+  --chart-height: 80px;
+  --chart-gap: 4px;
+  --chart-candle-width: 6px;
+  --drift-start-y: 14px;
+  --drift-start-scale: 0.7;
+  --drift-end-y: -20px;
+  --drift-end-scale: 1.6;
+  width: 100%;
+}
+
+.anxious-candle-wrapper.variant-light {
+  --candle-color: #ffffff;
+  --candle-glow: rgba(255, 255, 255, 0.6);
+}
+
+.anxious-candle-wrapper.variant-dark {
+  --candle-color: #eb7951;
+  --candle-glow: rgba(235, 121, 81, 0.3);
+}
+
+.anxious-candle-wrapper.variant-dark .anxious-candle:nth-child(even) {
+  --candle-color: #4c6ab5;
+  --candle-glow: rgba(76, 106, 181, 0.3);
+}
+
+.anxious-candle-wrapper.size-xs {
+  --chart-height: 48px;
+  --chart-gap: 1px;
+  --chart-candle-width: 5px;
+  --drift-start-y: 7px;
+  --drift-start-scale: 0.8;
+  --drift-end-y: -11px;
+  --drift-end-scale: 1.26;
+}
+
+.anxious-candle-wrapper.size-sm {
+  --chart-height: 56px;
+  --chart-gap: 3px;
+  --chart-candle-width: 4px;
+  --drift-start-y: 9px;
+  --drift-start-scale: 0.78;
+  --drift-end-y: -12px;
+  --drift-end-scale: 1.28;
+}
+
+.anxious-candle-wrapper.size-md {
+  --chart-height: 80px;
+  --chart-gap: 4px;
+  --chart-candle-width: 6px;
+}
+
+.anxious-candle-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: var(--chart-height);
+  width: 100%;
+  gap: var(--chart-gap);
+}
+
+.anxious-candle {
+  width: var(--chart-candle-width);
+  height: 100%;
+  position: relative;
+  transform-origin: center;
+  animation:
+    macro-drift var(--drift-dur) infinite ease-in-out,
+    opacity-wave 4s infinite ease-in-out;
+  animation-delay: var(--drift-delay), var(--wave-delay);
+}
+
+.anxious-candle::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  background: var(--candle-color);
+  opacity: 0.45;
+  bottom: var(--wb);
+  height: var(--wh);
+  border-radius: 1px;
+}
+
+.anxious-candle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: var(--candle-color);
+  opacity: 1;
+  bottom: var(--b);
+  height: var(--h);
+  border-radius: 1px;
+  transform-origin: center;
+  animation: body-breathe 4s infinite ease-in-out;
+  animation-delay: var(--wave-delay);
+}
+
+@keyframes macro-drift {
+  0%, 100% {
+    transform: translateY(var(--drift-start-y)) scaleY(var(--drift-start-scale));
+  }
+  50% {
+    transform: translateY(var(--drift-end-y)) scaleY(var(--drift-end-scale));
+  }
+}
+
+@keyframes opacity-wave {
+  0%, 100% { opacity: 0.35; }
+  40% { opacity: 0.85; }
+}
+
+@keyframes body-breathe {
+  0%, 100% { transform: scaleY(1); box-shadow: 0 0 0px var(--candle-glow); }
+  40% { transform: scaleY(1.3) translateY(-1px); box-shadow: 0 0 10px var(--candle-glow); }
+  80% { transform: scaleY(0.7) translateY(2px); box-shadow: 0 0 2px var(--candle-glow); }
+}
