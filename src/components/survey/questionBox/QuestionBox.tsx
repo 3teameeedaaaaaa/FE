@@ -83,13 +83,25 @@ const QuestionBox = () => {
                 situation: thoughtTag as string,
                 singleChip: situationTag as string,
                 text: detailText as string,
-                turn_number: 1,
+                turn_number: 0,
                 previouse_distorstion: "",
                 conversation_history: [],
             };
 
-            sessionStorage.setItem(SURVEY_PAYLOAD_KEY, JSON.stringify(payload));
+            const payloadWithId = {
+                ...payload,
+                id: stock?.id, // stock이 객체인지 확인 후 id 추가
+            };
 
+            console.log("id 추가", JSON.stringify(payloadWithId));
+            sessionStorage.setItem(
+                SURVEY_PAYLOAD_KEY,
+                JSON.stringify(payloadWithId),
+            );
+            console.log(
+                "sessionStorage 추가",
+                sessionStorage.getItem(SURVEY_PAYLOAD_KEY),
+            );
             try {
                 const res = await createChatSession(payload);
 

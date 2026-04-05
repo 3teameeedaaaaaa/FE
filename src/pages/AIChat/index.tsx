@@ -80,6 +80,7 @@ import ResultFooter from "@/components/aiChat/resultFooter/ResultFooter";
 import SkippableTextInput from "@/components/aiChat/skippableTextInput/SkippableTextInput";
 import BackButton from "@/components/backButton/backButton";
 import { TypographyH2 } from "@/components/ui/Typography";
+import { chatSession } from "@/service/survey/chatSession";
 const SESSION_KEY = "survey";
 
 function AIChat() {
@@ -98,6 +99,10 @@ function AIChat() {
     const [input, setInput] = useState("");
     const [myMessages, setMyMessages] = useState<string[]>([]);
 
+    useEffect(() => {
+        const res = chatSession();
+        console.log(res);
+    }, []);
     useEffect(() => {
         const stored = sessionStorage.getItem(SESSION_KEY);
         if (stored) {
