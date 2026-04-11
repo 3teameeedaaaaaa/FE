@@ -83,6 +83,7 @@ function ChatResult() {
                 <main className="relative z-10 space-y-5 px-4 pb-8 pt-6">
                     <ChatResultSummaryCard
                         tag={state.distortionTag}
+                        ticker={state.ticker}
                         title={config.summaryTitle}
                         summary={state.reflectionSummary}
                     />

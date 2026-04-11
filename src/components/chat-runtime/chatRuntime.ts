@@ -19,7 +19,10 @@ export function getTickerLabel(answers: SurveyAnswers) {
 }
 
 export function buildInitialUserText(answers: SurveyAnswers) {
+    const ticker = getTickerLabel(answers);
+
     return [
+        ticker ? `종목: ${ticker}` : null,
         answers.situationTag ? `상황: ${answers.situationTag}` : null,
         answers.emotion ? `감정: ${answers.emotion}` : null,
         answers.thoughtTag ? `생각: ${answers.thoughtTag}` : null,

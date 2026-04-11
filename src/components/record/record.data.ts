@@ -22,6 +22,7 @@ export type RecordHistoryItem = {
 export type RecordEntry = {
     id: string;
     emotion: string;
+    ticker?: string | null;
     phase: "사전" | "사후";
     date: string;
     thought: string;
@@ -152,6 +153,7 @@ export function buildRecordEntries(records: RecordHistoryItem[]): RecordEntry[] 
         .map((record) => ({
             id: record.id,
             emotion: record.emotion,
+            ticker: record.ticker ?? null,
             phase: record.phase,
             date: formatRecordDate(record.createdAt),
             thought: record.thought,
